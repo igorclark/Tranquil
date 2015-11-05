@@ -3,8 +3,8 @@ LLVM        = "#{TRANQUIL}/llvm"
 CC          = "clang"
 CXX         = "clang++"
 LD          = CC
-RAGEL       = "/usr/local/bin/ragel"
-LEMON       = "/usr/local/bin/lemon"
+RAGEL       = "#{TRANQUIL}/ragel/bin/ragel"
+LEMON       = "#{TRANQUIL}/lemon/bin/lemon"
 LLVMCONFIG  = "#{LLVM}/bin/llvm-config"
 
 MAXARGS = 32 # The number of block dispatchers to compile

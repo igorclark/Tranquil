@@ -47,9 +47,12 @@ then
   echo "\033[0;32mYou already have ragel installed.\033[0m"
 else
     pushd /tmp
-        curl http://www.complang.org/ragel/ragel-6.7.tar.gz -o ragel-6.7.tgz
-        tar -xzf ragel-6.7.tgz
-        cd ragel-6.7
+        RAGEL_VERSION=6.9
+        RAGEL_URL_PATH=http://www.colm.net/files/ragel
+        RAGEL_TARBALL=ragel-${RAGEL_VERSION}.tar.gz
+        curl ${RAGEL_URL_PATH}/${RAGEL_TARBALL} -o ${RAGEL_TARBALL}
+        tar -xzf ${RAGEL_TARBALL}
+        cd ragel-${RAGEL_VERSION}
         ./configure --prefix=/usr/local/tranquil/ragel
         make
         make install
@@ -83,11 +86,11 @@ else
         xcodebuild -alltargets
 
         mkdir -p /usr/local/tranquil/libffi-ios/lib
-        lipo -create -output /usr/local/tranquil/libffi-ios/lib/libffi.a build/Release-iphoneos/libffi.a build/Release-iphonesimulator/libffi.a
+        lipo build/Release-iphoneos/libffi.a -create -output /usr/local/tranquil/libffi-ios/lib/libffi.a
         cp -R build/Release-iphoneos/usr/local/include /usr/local/tranquil/libffi-ios/include
 
         mkdir -p /usr/local/tranquil/libffi/lib
-        lipo -extract x86_64 build/Release/libffi.a /usr/local/tranquil/libffi/lib/libffi.a
+        lipo build/Release/libffi.a -output /usr/local/tranquil/libffi/lib/libffi.a -extract x86_64
         cp -R build/Release/usr/local/include /usr/local/tranquil/libffi/include
     popd
 fi
@@ -123,7 +126,8 @@ else
       echo "\033[0;31mgit not installed\033[0m"
       exit
     }
-    git clone git://github.com/fjolnir/Tranquil.git /usr/local/tranquil/src
+    TRANQUIL_REPO=git://github.com/igorclark/Tranquil.git
+    git clone ${TRANQUIL_REPO} /usr/local/tranquil/src
 fi
 
 echo "\033[0;34mCompiling...\033[0m"
@@ -136,5 +140,3 @@ popd
 
 echo "\n\033[0;32mCongratulations!\n\033[0;33mYou can now find the Tranquil binary at '\033[0m/usr/local/tranquil/bin/tranquil\033[0;33m'\033[0m"
 echo "\n\033[0;33m(You'll probably want to add /usr/local/tranquil/bin to your \033[0mPATH\033[0;33m)\033[0m"
-
-
